@@ -172,10 +172,14 @@ if __name__ == '__main__':
                       action="store_true",
                       help="Set verbose mode on."
                       )
+    parser.add_argument('--config','-c',
+                      required=False,
+                      help="Configuration file"
+                      )
 
     args = parser.parse_args()
     config = ConfigParser.ConfigParser()
-    config.read("./config.ini")
+    config.read(args.config)
 
     if not os.path.exists(args.outdir):
         os.makedirs(args.outdir)        
@@ -313,7 +317,8 @@ if __name__ == '__main__':
 
     result_4digit = result.applymap(get_types)
     r = result_4digit[["A1", "A2", "B1", "B2", "C1", "C2", "nof_reads", "obj"]]
-    #write CSV to out. and generate Plots.  
+
+    #write CSV to out. and generate Plots.
     r.to_csv(out_csv, sep="\t",
                          cols=["A1", "A2", "B1", "B2", "C1", "C2", "nof_reads", "obj"],
                          header=["A1", "A2", "B1", "B2", "C1", "C2", "Reads", "Objective"])
